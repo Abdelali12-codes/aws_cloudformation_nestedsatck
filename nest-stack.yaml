@@ -1,0 +1,135 @@
+Parameters:
+
+  InstanceType:
+    Description: Amazon EC2 instance type for the instances
+    Type: String
+    AllowedValues:
+      - t3.micro
+      - t2.micro
+      - t2.medium
+    Default: t2.medium
+
+  EC2TagKey0:
+    Type: String
+    Default: Name
+    
+    
+  EC2TagValue0:
+    Type: String
+    Default: nginx-server
+    
+    
+  EC2TagKey1:
+    Type: String
+    Default: Type
+    
+    
+  EC2TagValue1:
+    Type: String
+    Default: Dev
+   
+  RepoName:
+    Description: The name of your codecommit repo
+    Type: String
+    
+  BranchName:
+    Description: The branch that you want the s3 bucket to push code to it
+    Type: String
+    
+  CodeDeployServiceRole:
+     Description: The codedeploy role that enable the service to call other services on your behalf
+     Type: String
+    
+  DeploymentGroupName:
+     Description: Deployment Group Name 
+     Type: String
+     
+  S3ArtifactStoreName:
+      Description: the artifact bucket that will be used by aws codepipeline to store the artifacts
+      Type: String
+      
+  S3BucketName:
+     Description: The Name of the s3 bucket that codecommit will pull the code from
+     Type: String
+     
+  S3BucketKey:
+     Description: The name of application 
+     Type: String
+      
+  HostedZoneId:
+     Description: The HostedZoneId
+     Type: AWS::Route53::HostedZone::Id
+     
+  SSLARN:
+      Description: The ssl arn of your domain
+      Type: String
+
+  Name:
+      Description: The value that will be updated on the index.html file
+      Type: String
+      Default: Abdelali
+     
+  EnvironmentName:
+    Description: An environment name that is prefixed to resource names
+    Type: String
+    
+  Route53RecordName:
+    Description: the record name of the elb alias
+    Type: String
+     
+  VpcCIDR:
+    Description: Please enter the IP range (CIDR notation) for this VPC
+    Type: String
+    Default: 10.192.0.0/16
+
+  PublicSubnet1CIDR:
+    Description: Please enter the IP range (CIDR notation) for the public subnet in the first Availability Zone
+    Type: String
+    Default: 10.192.10.0/24
+
+  PublicSubnet2CIDR:
+    Description: Please enter the IP range (CIDR notation) for the public subnet in the second Availability Zone
+    Type: String
+    Default: 10.192.11.0/24
+
+  PrivateSubnet1CIDR:
+    Description: Please enter the IP range (CIDR notation) for the private subnet in the first Availability Zone
+    Type: String
+    Default: 10.192.20.0/24
+
+  PrivateSubnet2CIDR:
+    Description: Please enter the IP range (CIDR notation) for the private subnet in the second Availability Zone
+    Type: String
+    Default: 10.192.21.0/24
+
+
+Resources:
+
+    NestedStack:
+       Type: AWS::CloudFormation::Stack
+       Properties:
+          TemplateURL:
+          https://aws-cloudformation-nested-stack-bucket.s3.eu-west-3.amazonaws.com/stack-template.template
+          Parameters:
+            InstanceType: !Ref InstanceType
+            EC2TagKey0: !Ref EC2TagKey0
+            EC2TagValue0: !Ref EC2TagValue0
+            EC2TagKey1: !Ref EC2TagKey1
+            EC2TagValue1: !Ref EC2TagValue1
+            RepoName: !Ref RepoName
+            BranchName: !Ref BranchName
+            CodeDeployServiceRole: !Ref CodeDeployServiceRole
+            DeploymentGroupName: !Ref DeploymentGroupName
+            S3ArtifactStoreName: !Ref S3ArtifactStoreName
+            S3BucketName: !Ref S3BucketName
+            S3BucketKey: !Ref S3BucketKey
+            HostedZoneId: !Ref HostedZoneId
+            SSLARN: !Ref SSLARN
+            Name: !Ref Name
+            EnvironmentName: !Ref EnvironmentName
+            Route53RecordName: !Ref Route53RecordName
+            VpcCIDR: !Ref VpcCIDR
+            PublicSubnet1CIDR: !Ref PublicSubnet1CIDR
+            PublicSubnet2CIDR: !Ref PublicSubnet2CIDR
+            PrivateSubnet1CIDR: !Ref PrivateSubnet1CIDR
+            PrivateSubnet2CIDR: !Ref PrivateSubnet2CIDR
