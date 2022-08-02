@@ -108,8 +108,7 @@ Resources:
     NestedStack:
        Type: AWS::CloudFormation::Stack
        Properties:
-          TemplateURL:
-          https://aws-cloudformation-nested-stack-bucket.s3.eu-west-3.amazonaws.com/stack-template.template
+          TemplateURL: https://aws-cloudformation-nested-stack-bucket.s3.eu-west-3.amazonaws.com/stack-template.template
           Parameters:
             InstanceType: !Ref InstanceType
             EC2TagKey0: !Ref EC2TagKey0
